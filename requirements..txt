@@ -1,6 +1,4 @@
-cv2
-opencv-python
+opencv-python-headless
 mediapipe
 ultralytics
 streamlit
-

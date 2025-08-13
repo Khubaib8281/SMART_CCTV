@@ -46,8 +46,20 @@ if use_webcam:
     webrtc_streamer(
         key="yolo-webcam",
         video_transformer_factory=YOLOVideoTransformer,
-        media_stream_constraints={"video": True, "audio": False}
+        media_stream_constraints={"video": True, "audio": False},
+        rtc_configuration={
+            "iceServers": [
+                {"urls": ["stun:stun.l.google.com:19302"]},  # Free STUN server
+                # TURN server example (replace with your own)
+                {
+                    "urls": ["turn:your-turn-server-ip:3478"],
+                    "username": "user",
+                    "credential": "pass"
+                }
+            ]
+        }
     )
+
 else:
     # -------------------
     # Video file upload
@@ -85,3 +97,4 @@ else:
             time.sleep(0.03)
 
         cap.release()
+

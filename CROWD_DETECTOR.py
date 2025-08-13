@@ -10,7 +10,7 @@ st.write("Real-time crowd detection using YOLOv8 and Streamlit")
 st.set_page_config(layout="wide", page_title="📹 Smart CCTV")
 
 # Load YOLO model     
-model = YOLO("D:\PROGRAMMING\AI\SMART_CCTV\yolov8s.pt")
+model = YOLO("yolov8s.pt")
 
 # Video upload
 video_file = st.file_uploader("Upload a video or use webcam", type=["mp4", "avi", "mov"])
@@ -49,5 +49,6 @@ if video_source is not None:
         time.sleep(0.03)  # 30 FPS limit
 
     cap.release()
+
 
 # streamlit run app.py  

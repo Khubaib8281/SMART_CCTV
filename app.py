@@ -21,11 +21,11 @@ st.write("Detect crowds and violence in real-time or from uploaded videos")
 # -------------------
 @st.cache_resource
 def load_yolo_model():
-    return YOLO("D:/PROGRAMMING/AI/SMART_CCTV/yolov8n.pt")  # crowd detector
+    return YOLO("yolov8n.pt")  # crowd detector
 
 @st.cache_resource
 def load_violence_model():
-    return load_model("D:/PROGRAMMING/AI/SMART_CCTV/modelnew.h5")  # violence detector
+    return load_model("modelnew.h5")  # violence detector
 
 yolo_model = load_yolo_model()
 violence_model = load_violence_model()
@@ -101,5 +101,6 @@ if video_source is not None:
         
         stframe.image(annotated_frame, channels="BGR")
         time.sleep(0.03)
+
 
     cap.release()

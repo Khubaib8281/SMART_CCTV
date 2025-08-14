@@ -22,7 +22,7 @@ st.markdown(
     <style>
     /* Page background */
     .stApp {
-        background-color: #0f111a;
+        background-color: #330000;
         color: #ffffff;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
@@ -151,4 +151,5 @@ if video_source is not None:
         time.sleep(0.03)
 
     cap.release()
+
 

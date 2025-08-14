@@ -12,9 +12,65 @@ import os
 # -------------------
 # Streamlit page setup
 # -------------------
-st.set_page_config(layout="wide", page_title="📹 Smart CCTV")
-st.title("📹 Smart CCTV - Crowd & Violence Detection")
-st.write("Detect crowds and violence in real-time or from uploaded videos")
+st.set_page_config(layout="wide", page_title="📹 VigilantEye", page_icon="👁️‍🗨️")
+
+# -------------------
+# Inject custom CSS for professional, techy theme
+# -------------------
+st.markdown(
+    """
+    <style>
+    /* Page background */
+    .stApp {
+        background-color: #0f111a;
+        color: #ffffff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Title styling */
+    .title {
+        color: #00ffc3;
+        font-size: 48px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 0px;
+    }
+
+    /* Subtitle / description */
+    .subtitle {
+        color: #a0a0a0;
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Video frame border */
+    .stImage img {
+        border-radius: 12px;
+        border: 2px solid #00ffc3;
+    }
+
+    /* Checkbox & uploader font color */
+    .css-1d391kg, .css-1n76uvr {
+        color: #ffffff;
+    }
+
+    /* Sidebar style */
+    [data-testid="stSidebar"] {
+        background-color: #1a1c29;
+        color: #ffffff;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# -------------------
+# App title & subtitle
+# -------------------
+st.markdown('<div class="title">VigilantEye 👁️‍🗨️</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Detect crowds and violence in real-time or from uploaded videos</div>', unsafe_allow_html=True)
 
 # -------------------
 # Load models
@@ -49,11 +105,10 @@ else:
 # Helper to play sound in background
 # -------------------
 def buzz_sound():
-    # You can replace with your own sound file path
     if os.path.exists("buzz.mp3"):
         playsound("buzz.mp3")
     else:
-        print("Buzz! Violence detected with crowd >5")  # fallback
+        print("Buzz! Violence detected with crowd >5")
 
 # -------------------
 # Process video
@@ -70,9 +125,7 @@ if video_source is not None:
         if not ret:
             break
         
-        # -------------------
         # Crowd detection (YOLO)
-        # -------------------
         results = yolo_model(frame)
         annotated_frame = results[0].plot()
         person_count = sum(1 for c in results[0].boxes.cls if int(c) == 0)
@@ -80,12 +133,10 @@ if video_source is not None:
             cv2.putText(annotated_frame, f"⚠ Crowd Alert: {person_count} people!", (20, 40),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 3)
         
-        # -------------------
         # Violence detection
-        # -------------------
         resized = cv2.resize(frame, FRAME_SIZE) / 255.0
         sequence.append(resized)
-        if len(sequence) > 1:  # single-frame based prediction
+        if len(sequence) > 1:
             clip = np.expand_dims(sequence[-1], axis=0)
             pred = violence_model.predict(clip, verbose=0)[0][0]
             label = "Violence" if pred > 0.5 else "Non-Violence"
@@ -93,14 +144,11 @@ if video_source is not None:
             cv2.putText(annotated_frame, f"{label} ({pred:.2f})", (20, 100),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
 
-            # -------------------
-            # Buzz if crowd>5 & violence
-            # -------------------
             if person_count > 5 and label=="Violence":
                 threading.Thread(target=buzz_sound).start()
         
         stframe.image(annotated_frame, channels="BGR")
         time.sleep(0.03)
 
-
     cap.release()
+

@@ -1,6 +1,8 @@
 mediapipe
-opencv-python-headless
-streamlit_webrtc
+opencv-python
 ultralytics
 streamlit
-
+tensorflow==2.15
+keras==2.15
+playsound
+numpy

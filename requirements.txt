@@ -1,8 +1,9 @@
 mediapipe
-opencv-python
+opencv-python-headless
 ultralytics
 streamlit
 tensorflow==2.15
 keras==2.15
 playsound==1.2.2
 numpy
+

@@ -12,7 +12,7 @@ import os
 # -------------------
 # Streamlit page setup
 # -------------------
-st.set_page_config(layout="wide", page_title="📹 VigilantEye", page_icon="👁️‍🗨️")
+st.set_page_config(layout="wide", page_title="VigilantEye", page_icon="👁️‍🗨️")
 
 # -------------------
 # Inject custom CSS for professional, techy theme
@@ -53,6 +53,7 @@ st.markdown(
     /* Checkbox & uploader font color */
     .css-1d391kg, .css-1n76uvr {
         color: #ffffff;
+        background-color: black;
     }
 
     /* Sidebar style */
@@ -151,5 +152,6 @@ if video_source is not None:
         time.sleep(0.03)
 
     cap.release()
+
 
 
